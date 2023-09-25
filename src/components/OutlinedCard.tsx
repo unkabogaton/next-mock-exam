@@ -7,7 +7,10 @@ interface Props {
 
 const Box: React.FC<Props> = ({ children }) => {
   return (
-    <Card variant="outlined" sx={{ padding: "2rem" }}>
+    <Card
+      variant="outlined"
+      sx={{ padding: "2rem", border: "1px solid black" }}
+    >
       {children}
     </Card>
   );

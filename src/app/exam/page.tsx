@@ -1,10 +1,10 @@
 import React from "react";
-import OutlinedCard from "../../components/OutlinedCard";
+import Exam from "./../../screens/Exam";
 
 const index = () => {
   return (
     <>
-      <OutlinedCard>Inter</OutlinedCard>
+      <Exam></Exam>
     </>
   );
 };
