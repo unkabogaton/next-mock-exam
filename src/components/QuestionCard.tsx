@@ -8,7 +8,7 @@ import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 
 interface QuestionCardProps {
-  itemNumber?: number;
+  questionIndex: number;
   question?: string;
   choices?: choicesProps[];
 }
@@ -20,9 +20,9 @@ interface choicesProps {
 }
 
 const QuestionCard = (props: QuestionCardProps) => {
-  const { itemNumber, question, choices } = props;
+  const { questionIndex, question, choices } = props;
   const [reactiveChoices, setReactiveChoices] = useState(choices);
-
+  const itemNumber = questionIndex + 1;
   const selectChoice = (selectedIndex: number) => {
     setReactiveChoices((prevChoices) =>
       prevChoices?.map((item, index) => ({
