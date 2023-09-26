@@ -8,9 +8,9 @@ import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 
 interface QuestionCardProps {
-  itemNumber: number;
-  question: string;
-  choices: choicesProps[];
+  itemNumber?: number;
+  question?: string;
+  choices?: choicesProps[];
 }
 
 interface choicesProps {
@@ -21,7 +21,18 @@ interface choicesProps {
 
 const QuestionCard = (props: QuestionCardProps) => {
   const { itemNumber, question, choices } = props;
-  const [reactiveChoice, setReactiveChoice] = useState(choices);
+  const [reactiveChoices, setReactiveChoices] = useState(choices);
+
+  const selectChoice = (selectedIndex: number) => {
+    setReactiveChoices((prevChoices) =>
+      prevChoices?.map((item, index) => ({
+        ...item,
+        isSelected: index === selectedIndex,
+      }))
+    );
+    console.log(selectedIndex);
+  };
+
   return (
     <>
       <Box my={4}>
@@ -34,22 +45,24 @@ const QuestionCard = (props: QuestionCardProps) => {
           </Typography>
           <Grid container>
             <Grid item md={6} xs={12}>
-              {choices?.slice(0, 2).map((choice, index) => (
+              {reactiveChoices?.slice(0, 2).map((choice, index) => (
                 <Choice
                   key={index}
                   letter={String.fromCharCode(65 + index)}
                   choice={choice.choice}
                   isSelected={choice.isSelected}
+                  selectIndex={() => selectChoice(index)}
                 />
               ))}
             </Grid>
             <Grid item md={6} xs={12}>
-              {choices?.slice(2, 4).map((choice, index) => (
+              {reactiveChoices?.slice(2, 4).map((choice, index) => (
                 <Choice
                   key={index}
                   letter={String.fromCharCode(67 + index)}
                   choice={choice.choice}
                   isSelected={choice.isSelected}
+                  selectIndex={() => selectChoice(index + 2)}
                 />
               ))}
             </Grid>

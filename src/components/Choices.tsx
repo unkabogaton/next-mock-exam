@@ -8,10 +8,11 @@ interface ChoiceProps {
   letter: string;
   choice: string;
   isSelected: boolean;
+  selectIndex?: () => void;
 }
 
 const Choice = (props: ChoiceProps) => {
-  const { letter, choice, isSelected } = props;
+  const { letter, choice, isSelected, selectIndex } = props;
   const [isHovered, setIsHovered] = useState(false);
 
   const handleMouseEnter = () => {
@@ -33,6 +34,7 @@ const Choice = (props: ChoiceProps) => {
         }}
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
+        onClick={selectIndex}
       >
         <Box
           justifyContent="center"
