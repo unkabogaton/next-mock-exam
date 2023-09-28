@@ -5,6 +5,7 @@ import {
   startAfter,
   limit,
   where,
+  QuerySnapshot,
 } from "firebase/firestore";
 import db from "../firebase";
 import { useQuery } from "react-query";
@@ -24,36 +25,44 @@ const usePaginatedQuestions = (props: paginatedProps) => {
 
   const [startingDocs, setStartingDocs] = useState([{}]);
 
+  const limitNumber = 10;
+
   const questionsCollections = collection(db, "exams", exam, "questions");
   const constraints = [
     orderBy(order),
     where("createdBy", "==", userId),
     where("approved", "==", approved),
-    limit(10),
+    limit(limitNumber),
   ];
 
-  const getPaginatedQuestions = async () => {
-    return page == 1 ? getInitial() : getNext();
-  };
+  const first = query(questionsCollections, ...constraints);
+  const next = query(
+    questionsCollections,
+    ...constraints,
+    startAfter(startingDocs[page - 1])
+  );
 
-  const getInitial = async () => {
-    const first = query(questionsCollections, ...constraints);
-    const { documentSnapshots, cleanedData } = await iterateFetch(first);
-    const lastVisible =
-      documentSnapshots.docs[documentSnapshots.docs.length - 1];
-    setStartingDocs((prevArray) => [...prevArray, lastVisible]);
+  const getPaginatedQuestions = async () => {
+    let query;
+    page == 1 ? (query = first) : (query = next);
+    const { documentSnapshots, cleanedData } = await iterateFetch(query);
+    addStartingDoc(documentSnapshots);
     return cleanedData;
   };
 
-  const getNext = async () => {
-    const next = query(
-      questionsCollections,
-      ...constraints,
-      startAfter(startingDocs[page - 1])
-    );
+  const addStartingDoc = (documentSnapshots: QuerySnapshot) => {
+    const lastVisible =
+      documentSnapshots.docs[documentSnapshots.docs.length - 1];
+    setStartingDocs((prevArray) => {
+      const newArray = [...prevArray];
+      newArray[page - 1] = lastVisible;
+      return newArray;
+    });
   };
+
   return useQuery(["paginatedQuestions", page], getPaginatedQuestions, {
     refetchOnMount: false,
+    keepPreviousData: true,
   });
 };
 
