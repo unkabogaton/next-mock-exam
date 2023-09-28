@@ -2,6 +2,7 @@ import QuestionCard from "../../components/QuestionCard";
 import { useQuestions } from "../../context/questions/context";
 
 interface QuestionsProps {
+  itemNumber: number;
   question?: string;
   choices?: choicesProps[];
 }
@@ -18,12 +19,8 @@ const Questions = () => {
 
   return (
     <>
-      {questions?.map((question, index: number) => (
-        <QuestionCard
-          key={index}
-          {...question}
-          questionIndex={index}
-        ></QuestionCard>
+      {questions?.map((question) => (
+        <QuestionCard key={question.itemNumber} {...question}></QuestionCard>
       ))}
     </>
   );

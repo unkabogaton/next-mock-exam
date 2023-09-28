@@ -6,11 +6,12 @@ import Choice from "./Choices";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
+import { useQuestions } from "../context/questions";
 
 interface QuestionCardProps {
-  questionIndex: number;
   question?: string;
   choices?: choicesProps[];
+  itemNumber: number;
 }
 
 interface choicesProps {
@@ -20,9 +21,10 @@ interface choicesProps {
 }
 
 const QuestionCard = (props: QuestionCardProps) => {
-  const { questionIndex, question, choices } = props;
+  const { addAnswer } = useQuestions();
+
+  const { itemNumber, question, choices } = props;
   const [reactiveChoices, setReactiveChoices] = useState(choices);
-  const itemNumber = questionIndex + 1;
   const selectChoice = (selectedIndex: number) => {
     setReactiveChoices((prevChoices) =>
       prevChoices?.map((item, index) => ({
@@ -30,7 +32,6 @@ const QuestionCard = (props: QuestionCardProps) => {
         isSelected: index === selectedIndex,
       }))
     );
-    console.log(selectedIndex);
   };
 
   return (
@@ -51,7 +52,10 @@ const QuestionCard = (props: QuestionCardProps) => {
                   letter={String.fromCharCode(65 + index)}
                   choice={choice.choice}
                   isSelected={choice.isSelected}
-                  selectIndex={() => selectChoice(index)}
+                  selectIndex={() => {
+                    selectChoice(index);
+                    addAnswer(itemNumber - 1, choice.point);
+                  }}
                 />
               ))}
             </Grid>
@@ -62,7 +66,10 @@ const QuestionCard = (props: QuestionCardProps) => {
                   letter={String.fromCharCode(67 + index)}
                   choice={choice.choice}
                   isSelected={choice.isSelected}
-                  selectIndex={() => selectChoice(index + 2)}
+                  selectIndex={() => {
+                    selectChoice(index + 2);
+                    addAnswer(itemNumber - 1, choice.point);
+                  }}
                 />
               ))}
             </Grid>
