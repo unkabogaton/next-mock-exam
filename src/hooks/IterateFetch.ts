@@ -1,10 +1,18 @@
 import { getDocs, Query } from "firebase/firestore";
 
-const iterateFetch = async (collection: Query) => {
+const iterateFetch = async (collection: Query, attributes?: string[]) => {
   const documentSnapshots = await getDocs(collection);
-  const cleanedData: object[] = [];
+  const cleanedData: any = [];
   documentSnapshots.forEach((doc) => {
-    cleanedData.push({ ...doc.data(), id: doc.id });
+    if (attributes) {
+      const filteredData = attributes.reduce(
+        (obj, attribute) => ({ ...obj, [attribute]: doc.data()[attribute] }),
+        {}
+      );
+      cleanedData.push({ ...filteredData, id: doc.id });
+    } else {
+      cleanedData.push({ ...doc.data(), id: doc.id });
+    }
   });
   return { documentSnapshots, cleanedData };
 };
