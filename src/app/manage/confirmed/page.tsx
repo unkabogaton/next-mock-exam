@@ -1,8 +1,3 @@
-"use client";
-
-import { useState } from "react";
-import usePaginatedQuestions from "@/hooks/usePaginatedQuestions";
-
 const ConfirmedQuestions = () => {
   return (
     <>
