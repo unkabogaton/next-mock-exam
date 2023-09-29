@@ -1,5 +1,5 @@
 import QuestionCard from "../../components/QuestionCard";
-import { useQuestions } from "../../context/questions/context";
+import { useQuestions } from "@/context/questions/store";
 
 interface QuestionsProps {
   itemNumber: number;

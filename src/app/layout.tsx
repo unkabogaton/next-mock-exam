@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import { ReactNode } from "react";
 import Sidebar from "../components/Sidebar";
+import { ReactQueryProvider } from "@/query/ReactQueryProvider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -13,10 +14,12 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
-    <html lang="en">
-      <body className={inter.className}>
-        <Sidebar>{children}</Sidebar>
-      </body>
-    </html>
+    <ReactQueryProvider>
+      <html lang="en">
+        <body className={inter.className}>
+          <Sidebar>{children}</Sidebar>
+        </body>
+      </html>
+    </ReactQueryProvider>
   );
 }

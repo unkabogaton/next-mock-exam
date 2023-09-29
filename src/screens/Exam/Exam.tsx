@@ -1,6 +1,6 @@
 "use client";
 
-import QuestionsProvider from "../../context/questions";
+import QuestionsProvider from "@/context/questions";
 import Questions from "./Questions";
 
 const Exam = () => {

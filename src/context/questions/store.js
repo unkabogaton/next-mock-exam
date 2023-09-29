@@ -323,7 +323,7 @@ const QuestionsProvider = ({ children }) => {
   );
 };
 
-const useQuestions = () => {
+export const useQuestions = () => {
   const context = useContext(QuestionsContext);
   if (!context) {
     throw new Error("useQuestions must be used within Questions Provider");
@@ -331,4 +331,4 @@ const useQuestions = () => {
   return context;
 };
 
-export { QuestionsProvider, useQuestions };
+export default QuestionsProvider;
