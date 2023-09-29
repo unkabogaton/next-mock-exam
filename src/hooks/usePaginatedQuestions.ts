@@ -9,11 +9,11 @@ import {
   Timestamp,
   serverTimestamp,
 } from "firebase/firestore";
-import db from "../firebase";
+import db from "@/firebase";
 import { useQuery } from "react-query";
 import { useState } from "react";
-import iterateFetch from "./IterateFetch";
-import countFetch from "./CountFetch";
+import iterateFetch from "@/apis/iterateFetch";
+import countFetch from "@/apis/countFetch";
 
 interface paginatedProps {
   order: [string, "asc" | "desc"];

@@ -1,12 +1,12 @@
 "use client";
 
 import React, { useState } from "react";
-import OutlinedCard from "./OutlinedCard";
-import Choice from "./Choices";
+import OutlinedCard from "@/components/OutlinedCard";
+import Choice from "@/components/Choices";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
-import { useQuestions } from "../context/questions/store";
+import { useQuestions } from "@/context/questions/store";
 
 interface QuestionCardProps {
   question?: string;

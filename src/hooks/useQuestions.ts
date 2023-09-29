@@ -1,5 +1,5 @@
 import { useQuery } from "react-query";
-import db from "../firebase";
+import db from "@/firebase";
 import { collectionGroup, getDocs, query, Timestamp } from "firebase/firestore";
 
 const useQuestions = () => {
