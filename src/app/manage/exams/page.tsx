@@ -1,18 +1,9 @@
-"use client";
-
-import React from "react";
-import useQuestions from "@/hooks/useQuestions";
-
-const ConfirmedQuestions = () => {
-  const { isLoading, data: questions } = useQuestions();
-  if (isLoading) {
-    return <h1>Loading...</h1>;
-  }
+function App() {
   return (
-    <>
-      <h1>Confirmed Questions</h1>
-    </>
+    <div className="App">
+      <h1>Hello World</h1>
+    </div>
   );
-};
+}
 
-export default ConfirmedQuestions;
+export default App;
