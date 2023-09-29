@@ -6,12 +6,13 @@ import usePaginatedQuestions from "@/hooks/usePaginatedQuestions";
 const ExamQuestions = ({ params }: { params: { name: string } }) => {
   const [page, setPage] = useState(1);
   const queryProps = {
-    order: "createdAt",
+    order: ["created.date", "desc"] as [string, "asc" | "desc"],
     exam: params.name,
     userId: "54321",
     approved: true,
     page: page,
     keywords: [],
+    category: "",
   };
   const {
     isLoading,

@@ -7,6 +7,7 @@ import {
   where,
   QuerySnapshot,
   Timestamp,
+  serverTimestamp,
 } from "firebase/firestore";
 import db from "../firebase";
 import { useQuery } from "react-query";
@@ -15,20 +16,20 @@ import iterateFetch from "./IterateFetch";
 import countFetch from "./CountFetch";
 
 interface paginatedProps {
-  order: string;
+  order: [string, "asc" | "desc"];
   exam: string;
   userId: string;
   approved: boolean;
   page: number;
   keywords?: string[];
+  category?: string;
 }
 
 interface QuestionsProps {
   id: string;
   question: string;
-  createdAt: Timestamp;
-  approvedBy: string[];
-  approvedAt: Timestamp;
+  created: object;
+  approval: object;
   indexNumber: number;
   category: string;
   choices: choicesProps[];
@@ -42,7 +43,7 @@ interface choicesProps {
 }
 
 const usePaginatedQuestions = (props: paginatedProps) => {
-  const { order, exam, userId, approved, page, keywords } = props;
+  const { order, exam, userId, approved, page, keywords, category } = props;
 
   const [startingDocs, setStartingDocs] = useState([{}]);
 
@@ -50,13 +51,17 @@ const usePaginatedQuestions = (props: paginatedProps) => {
 
   const questionsCollections = collection(db, "exams", exam, "questions");
   const constraints = [
-    orderBy(order),
-    where("createdBy.userId", "==", userId),
+    orderBy(...order),
+    where("created.userId", "==", userId),
     where("approved", "==", approved),
   ];
 
-  keywords?.length != 0
+  keywords && keywords.length !== 0
     ? constraints.push(where("keywords", "array-contains-any", keywords))
+    : "";
+
+  category && category !== ""
+    ? constraints.push(where("category", "==", category))
     : "";
 
   let questionsQuery = query(questionsCollections, ...constraints);
@@ -111,12 +116,16 @@ const usePaginatedQuestions = (props: paginatedProps) => {
   });
 
   return {
-    ...useQuery(["paginatedQuestions", page], getPaginatedQuestions, {
-      refetchOnMount: false,
-      refetchOnWindowFocus: false,
-      keepPreviousData: true,
-      refetchOnReconnect: false,
-    }),
+    ...useQuery(
+      ["paginatedQuestions", page, keywords, category],
+      getPaginatedQuestions,
+      {
+        refetchOnMount: false,
+        refetchOnWindowFocus: false,
+        keepPreviousData: true,
+        refetchOnReconnect: false,
+      }
+    ),
     count,
   };
 };
