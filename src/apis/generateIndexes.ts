@@ -9,16 +9,15 @@ const generateIndexes = (
   ).length;
 
   const generateRandom = () => {
-    let randomNum: number;
-    do {
-      randomNum = Math.floor(Math.random() * number) + 1;
-    } while (exclusionArray.includes(randomNum));
-    uniqueNumbers.add(randomNum);
+    let randomNum = Math.floor(Math.random() * number) + 1;
+    if (!exclusionArray.includes(randomNum)) {
+      uniqueNumbers.add(randomNum);
+    }
   };
 
   const numberLength = Math.min(number - excludedNumberCount, 100);
 
-  for (let i = 0; i < numberLength; i++) {
+  while (uniqueNumbers.size < numberLength) {
     generateRandom();
   }
 
@@ -33,6 +32,10 @@ const generateIndexes = (
       tempArray = [];
     }
   });
+
+  if (tempArray.length > 0) {
+    arraysOfTen.push([...tempArray]);
+  }
 
   return arraysOfTen;
 };
