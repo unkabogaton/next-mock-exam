@@ -1,5 +1,7 @@
+import { useState } from "react";
 import QuestionCard from "./QuestionCard";
 import { useQuestions } from "@/context/questions/store";
+import { useSearchParams } from "next/navigation";
 
 interface QuestionsProps {
   itemNumber: number;
@@ -15,7 +17,18 @@ interface choicesProps {
 
 const Questions = () => {
   const { state } = useQuestions();
-  const questions: QuestionsProps[] = state.questions;
+  const searchParams = useSearchParams();
+  const pageId = Number(searchParams.get("page")) - 1;
+  const examId = searchParams.get("id");
+  const category = searchParams.get("category");
+  const noPrev = pageId == 0;
+  const noNext = pageId == state.randomIndexes.length - 1;
+  const questionsExist = state.questions[pageId * 10];
+  const pageNumber = "Math.floor(Math.floor(y/x)) + 1";
+  const questions: QuestionsProps[] = state.questions.slice(
+    Number(`${pageId}0`),
+    Number(`${pageId}9`) + 1
+  );
 
   return (
     <>
@@ -26,6 +39,8 @@ const Questions = () => {
           questionId={index}
         ></QuestionCard>
       ))}
+      <button disabled={noPrev}>Prev</button>
+      <button disabled={noNext}>Next</button>
     </>
   );
 };

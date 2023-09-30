@@ -35,12 +35,12 @@ const useActions = (dispatch: Function, state: stateTypes) => {
     });
   };
 
-  const addQuestions = (examId: string, category: string, page: number) => {
-    if (state.questions[page * 10]) return;
+  const addQuestions = (examId: string, category: string, pageId: number) => {
+    if (state.questions[pageId * 10]) return;
     const questions = fetchRandomQuestions(
       examId,
       category,
-      state.randomIndexes[page]
+      state.randomIndexes[pageId]
     );
     dispatch({
       type: "ADD_QUESTIONS",

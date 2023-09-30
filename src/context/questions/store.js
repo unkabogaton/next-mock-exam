@@ -61,12 +61,9 @@ const questionsReducer = (state, action) => {
 const QuestionsProvider = ({ children }) => {
   const [state, dispatch] = useReducer(questionsReducer, initialState);
   const numberOfQuestions = state.questions.length;
-
-  state.randomIndexes = generateIndexes(numberOfQuestions, [1]);
+  state.randomIndexes = generateIndexes(numberOfQuestions, []);
   state.answers = Array.from({ length: numberOfQuestions }).fill(false);
   state.points = Array.from({ length: numberOfQuestions }).fill(0);
-
-  const page = 0;
 
   const actions = useActions(dispatch, state);
 
