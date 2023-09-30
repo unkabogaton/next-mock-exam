@@ -41,14 +41,14 @@ const questionsReducer = (state, action) => {
       state.questions[questionId]?.choices.forEach((choice) => {
         choice.isSelected = choice.choice === choiceItem;
       });
-      console.log(state.questions);
       return {
         ...state,
         questions: state.questions,
       };
     }
     case "ADD_QUESTIONS": {
-      state.questions.splice(payload.id * 10, 10, ...payload.questions);
+      state.questions.splice(payload.id + 1 * 10, 10, ...payload.questions);
+      console.log(state.questions);
       return {
         ...state,
         questions: state.questions,

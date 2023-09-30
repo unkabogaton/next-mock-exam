@@ -10,7 +10,6 @@ const useQuestions = () => {
     questionsSnap.forEach((doc) => {
       questions.push({ ...doc.data(), id: doc.id });
     });
-    console.log(questions);
     return questions;
   };
   return useQuery("questions", fetchQuestions, {
