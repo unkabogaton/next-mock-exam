@@ -59,10 +59,7 @@ const QuestionsProvider = ({ children }) => {
   const numberOfQuestions = state.questions.length;
 
   const fetchRandomQuestions = () => {};
-
-  state.randomIndexes = generateIndexes(numberOfQuestions, []);
-
-  console.log(state.randomIndexes);
+  state.randomIndexes = generateIndexes(98, [1]);
 
   useEffect(() => {
     dispatch({
@@ -70,6 +67,8 @@ const QuestionsProvider = ({ children }) => {
       payload: Array.from({ length: numberOfQuestions }).fill(0),
     });
   }, [numberOfQuestions]);
+
+  console.log(state.randomIndexes);
 
   const actions = useActions(dispatch, state);
 
