@@ -1,4 +1,4 @@
-import QuestionCard from "../../components/QuestionCard";
+import QuestionCard from "./QuestionCard";
 import { useQuestions } from "@/context/questions/store";
 
 interface QuestionsProps {
@@ -19,8 +19,12 @@ const Questions = () => {
 
   return (
     <>
-      {questions?.map((question) => (
-        <QuestionCard key={question.itemNumber} {...question}></QuestionCard>
+      {questions?.map((question, index) => (
+        <QuestionCard
+          key={index}
+          {...question}
+          questionId={index}
+        ></QuestionCard>
       ))}
     </>
   );

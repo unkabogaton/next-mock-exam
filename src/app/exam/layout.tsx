@@ -1,5 +1,7 @@
-import { Container, Box } from "@mui/material";
+import Container from "@mui/material/Container";
+import Box from "@mui/material/Box";
 import { ReactNode } from "react";
+
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <Container fixed>

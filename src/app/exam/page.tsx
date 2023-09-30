@@ -1,4 +1,3 @@
-import React from "react";
 import Exam from "../../screens/Exam";
 
 const index = () => {

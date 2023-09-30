@@ -14,6 +14,7 @@ const ExamQuestions = ({ params }: { params: { name: string } }) => {
     keywords: [],
     category: "",
   };
+
   const {
     isLoading,
     data: questions,
