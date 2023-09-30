@@ -41,7 +41,7 @@ const Questions = () => {
         <QuestionCard
           key={index}
           {...question}
-          questionId={index}
+          questionId={pageId * 10 + index}
         ></QuestionCard>
       ))}
       <Link href={`/exam?page=${page - 1}`}>
