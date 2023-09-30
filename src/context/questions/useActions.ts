@@ -45,6 +45,7 @@ const useActions = (dispatch: Function, state: stateTypes) => {
     dispatch({
       type: "ADD_QUESTIONS",
       payload: {
+        id: pageId,
         questions,
       },
     });
