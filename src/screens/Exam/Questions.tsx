@@ -1,7 +1,7 @@
-import { useState } from "react";
 import QuestionCard from "./QuestionCard";
 import { useQuestions } from "@/context/questions/store";
 import { useSearchParams } from "next/navigation";
+import Link from "next/link";
 
 interface QuestionsProps {
   itemNumber: number;
@@ -16,8 +16,9 @@ interface choicesProps {
 }
 
 const Questions = () => {
-  const { state } = useQuestions();
+  const { state, addQuestions } = useQuestions();
   const searchParams = useSearchParams();
+  const page = Number(searchParams.get("page"));
   const pageId = Number(searchParams.get("page")) - 1;
   const examId = searchParams.get("id");
   const category = searchParams.get("category");
@@ -30,6 +31,10 @@ const Questions = () => {
     pageId * 10 + 10
   );
 
+  const newParams = new URLSearchParams();
+  newParams.set("page", (page + 1).toString());
+  console.log(newParams.toString());
+
   return (
     <>
       {questions?.map((question, index) => (
@@ -39,8 +44,17 @@ const Questions = () => {
           questionId={index}
         ></QuestionCard>
       ))}
-      <button disabled={noPrev}>Prev</button>
-      <button disabled={noNext}>Next</button>
+      <Link href={`/exam?page=${page - 1}`}>
+        <button disabled={noPrev}>Prev</button>
+      </Link>
+      <Link href={`/exam?page=${page + 1}`}>
+        <button
+          disabled={noNext}
+          onClick={() => addQuestions("wnwf", "kqnckeq", pageId)}
+        >
+          Next
+        </button>
+      </Link>
     </>
   );
 };
