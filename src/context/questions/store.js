@@ -48,11 +48,7 @@ const questionsReducer = (state, action) => {
       };
     }
     case "ADD_QUESTIONS": {
-      state.questions.splice(
-        Number(`${payload.id}0`),
-        10,
-        ...payload.questions
-      );
+      state.questions.splice(payload.id * 10, 10, ...payload.questions);
       return {
         ...state,
         questions: state.questions,

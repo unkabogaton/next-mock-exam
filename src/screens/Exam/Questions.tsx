@@ -26,8 +26,8 @@ const Questions = () => {
   const questionsExist = state.questions[pageId * 10];
   const pageNumber = "Math.floor(Math.floor(y/x)) + 1";
   const questions: QuestionsProps[] = state.questions.slice(
-    Number(`${pageId}0`),
-    Number(`${pageId}9`) + 1
+    pageId * 10,
+    pageId * 10 + 10
   );
 
   return (
