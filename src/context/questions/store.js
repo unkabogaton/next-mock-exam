@@ -8,6 +8,7 @@ const QuestionsContext = createContext();
 const initialState = {
   questions: questions,
   answers: [],
+  points: [],
   page: 0,
   randomIndexes: [],
 };
@@ -22,21 +23,23 @@ const questionsReducer = (state, action) => {
         questions: [...state.questions, ...payload],
       };
     }
-    case "DELETE_QUESTIONS": {
-      return {
-        ...state,
-        questions: [...state.questions, ...payload],
-      };
-    }
-    case "SET_ANSWERS": {
-      return {
-        ...state,
-        answers: payload,
-      };
-    }
     case "ADD_ANSWER": {
-      state.answers[payload.index] = payload.point;
-      return state;
+      state.answers[payload.index] = true;
+      state.points[payload.index] = payload.point;
+      return {
+        ...state,
+        answers: state.answers,
+        points: state.points,
+      };
+    }
+    case "REMOVE_ANSWER": {
+      state.answers[payload.index] = false;
+      state.points[payload.index] = 0;
+      return {
+        ...state,
+        answers: state.answers,
+        points: state.points,
+      };
     }
     case "SELECT_CHOICE": {
       const { questionId, choiceItem } = payload;
@@ -60,13 +63,8 @@ const QuestionsProvider = ({ children }) => {
 
   const fetchRandomQuestions = () => {};
   state.randomIndexes = generateIndexes(98, [1]);
-
-  useEffect(() => {
-    dispatch({
-      type: "SET_ANSWERS",
-      payload: Array.from({ length: numberOfQuestions }).fill(0),
-    });
-  }, [numberOfQuestions]);
+  state.answers = Array.from({ length: numberOfQuestions }).fill(false);
+  state.points = Array.from({ length: numberOfQuestions }).fill(0);
 
   console.log(state.randomIndexes);
 
