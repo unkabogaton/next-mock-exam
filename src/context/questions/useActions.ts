@@ -1,4 +1,11 @@
-const useActions = (dispatch: Function) => {
+import fetchRandomQuestions from "@/apis/fetchRandomQuestions";
+
+interface stateTypes {
+  randomIndexes: [][];
+  questions: [];
+}
+
+const useActions = (dispatch: Function, state: stateTypes) => {
   const addAnswer = (index: number, point: number) => {
     dispatch({
       type: "ADD_ANSWER",
@@ -28,7 +35,22 @@ const useActions = (dispatch: Function) => {
     });
   };
 
-  return { addAnswer, selectChoice, removeAnswer };
+  const addQuestions = (examId: string, category: string, page: number) => {
+    if (state.questions[page * 10]) return;
+    const questions = fetchRandomQuestions(
+      examId,
+      category,
+      state.randomIndexes[page]
+    );
+    dispatch({
+      type: "ADD_QUESTIONS",
+      payload: {
+        questions,
+      },
+    });
+  };
+
+  return { addAnswer, selectChoice, removeAnswer, addQuestions };
 };
 
 export default useActions;

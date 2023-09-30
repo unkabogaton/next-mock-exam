@@ -2,6 +2,7 @@ import { useEffect, useReducer, createContext, useContext } from "react";
 import generateIndexes from "@/apis/generateIndexes";
 import useActions from "./useActions";
 import { questions } from "@/data";
+import fetchRandomQuestions from "@/apis/fetchRandomQuestions";
 
 const QuestionsContext = createContext();
 
@@ -17,12 +18,6 @@ const questionsReducer = (state, action) => {
   const { type, payload } = action;
 
   switch (type) {
-    case "SET_QUESTIONS": {
-      return {
-        ...state,
-        questions: [...state.questions, ...payload],
-      };
-    }
     case "ADD_ANSWER": {
       state.answers[payload.index] = true;
       state.points[payload.index] = payload.point;
@@ -52,6 +47,12 @@ const questionsReducer = (state, action) => {
         questions: state.questions,
       };
     }
+    case "ADD_QUESTIONS": {
+      return {
+        ...state,
+        questions: [state.questions, ...payload],
+      };
+    }
     default:
       throw new Error("No case for that type");
   }
@@ -61,12 +62,11 @@ const QuestionsProvider = ({ children }) => {
   const [state, dispatch] = useReducer(questionsReducer, initialState);
   const numberOfQuestions = state.questions.length;
 
-  const fetchRandomQuestions = () => {};
-  state.randomIndexes = generateIndexes(98, [1]);
+  state.randomIndexes = generateIndexes(numberOfQuestions, [1]);
   state.answers = Array.from({ length: numberOfQuestions }).fill(false);
   state.points = Array.from({ length: numberOfQuestions }).fill(0);
 
-  console.log(state.randomIndexes);
+  const page = 0;
 
   const actions = useActions(dispatch, state);
 
