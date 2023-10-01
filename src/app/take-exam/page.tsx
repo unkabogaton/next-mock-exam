@@ -1,6 +1,6 @@
 import Exam from "../../screens/Exam";
 
-const index = () => {
+const ChooseExamPage = () => {
   return (
     <>
       <Exam></Exam>
@@ -8,4 +8,4 @@ const index = () => {
   );
 };
 
-export default index;
+export default ChooseExamPage;
