@@ -4,7 +4,7 @@ const iterateFetch = async (collection: Query, attributes?: string[]) => {
   const documentSnapshots = await getDocs(collection);
   const cleanedData: any = [];
   documentSnapshots.forEach((doc) => {
-    if (attributes) {
+    if (attributes && attributes.length == 0) {
       const filteredData = attributes.reduce(
         (obj, attribute) => ({ ...obj, [attribute]: doc.data()[attribute] }),
         {}

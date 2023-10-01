@@ -3,27 +3,25 @@ import iterateFetch from "@/apis/iterateFetch";
 import db from "@/firebase";
 import { useQuery } from "react-query";
 
-type fetchDocsProps = {
+interface fetchDocsProps {
   nestedCollection?: [string, string, string];
   singleCollection?: string;
   attributes?: string[];
-  order: ["string", "asc" | "desc"];
-};
+  order: [string, "asc" | "desc"];
+}
 
 const useFetchDocs = ({
   nestedCollection,
   singleCollection = "exams",
   order,
-  attributes = [],
+  attributes,
 }: fetchDocsProps) => {
   const fetchData = async () => {
     const fetchCollection = nestedCollection
       ? collection(db, ...nestedCollection)
       : collection(db, singleCollection);
     const collectionQuery = query(fetchCollection, orderBy(...order));
-    const { cleanedData } = await iterateFetch(collectionQuery, [
-      ...attributes,
-    ]);
+    const { cleanedData } = await iterateFetch(collectionQuery, attributes);
     return cleanedData;
   };
   return useQuery(

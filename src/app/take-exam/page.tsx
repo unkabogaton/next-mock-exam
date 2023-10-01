@@ -1,9 +1,9 @@
-import Exam from "../../screens/Exam";
+import ChooseExam from "@/screens/ChooseExam";
 
 const ChooseExamPage = () => {
   return (
     <>
-      <Exam></Exam>
+      <ChooseExam />
     </>
   );
 };
