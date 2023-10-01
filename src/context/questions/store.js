@@ -3,6 +3,7 @@ import generateIndexes from "@/apis/generateIndexes";
 import useActions from "./useActions";
 import { questions } from "@/data";
 import fetchRandomQuestions from "@/apis/fetchRandomQuestions";
+import useHighestIndex from "@/hooks/useHighestIndex";
 
 const QuestionsContext = createContext();
 
@@ -12,6 +13,7 @@ const initialState = {
   points: [],
   page: 0,
   randomIndexes: [],
+  category: {},
 };
 
 const questionsReducer = (state, action) => {
@@ -61,8 +63,9 @@ const questionsReducer = (state, action) => {
 
 const QuestionsProvider = ({ children }) => {
   const [state, dispatch] = useReducer(questionsReducer, initialState);
-  const numberOfQuestions = state.questions.length;
-  state.randomIndexes = generateIndexes(numberOfQuestions, []);
+  const numberOfQuestions = state.category.lastIndex;
+  const exclusionArray = state.category.deletedIndex;
+  state.randomIndexes = generateIndexes(numberOfQuestions, exclusionArray);
   state.answers = Array.from({ length: numberOfQuestions }).fill(false);
   state.points = Array.from({ length: numberOfQuestions }).fill(0);
 

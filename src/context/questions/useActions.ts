@@ -42,7 +42,7 @@ const useActions = (dispatch: Function, state: stateTypes) => {
   ) => {
     // const questions = fetchRandomQuestions(
     //   examId,
-    //   category,
+    //   category
     //   state.randomIndexes[pageId]
     // );
     const questions = [
