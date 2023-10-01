@@ -2,6 +2,7 @@
 
 import useFetchDocs from "@/hooks/useFetchDocs";
 import OutlinedCard from "@/components/OutlinedCard";
+import Link from "next/link";
 
 type examType = {
   id: string;
@@ -26,12 +27,16 @@ const ChooseExam = () => {
   return (
     <>
       {exams?.map((exam: examType) => (
-        <div key={exam.id}>
-          <h3>{exam.shortName}</h3>
-          <h4>{exam.name}</h4>
-          <h5>{exam.field}</h5>
-          <p>{exam.details}</p>
-        </div>
+        <Link
+          key={exam.id}
+          href={`/take-exam/${exam.id}?exam=${exam.shortName}`}
+        >
+          <OutlinedCard>
+            <h3>{exam.shortName}</h3>
+            <h4>{exam.name}</h4>
+            <h5>{exam.field}</h5>
+          </OutlinedCard>
+        </Link>
       ))}
     </>
   );

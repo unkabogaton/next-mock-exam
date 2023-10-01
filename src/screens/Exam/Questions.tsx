@@ -1,6 +1,6 @@
 import QuestionCard from "./QuestionCard";
 import { useQuestions } from "@/context/questions/store";
-import { useSearchParams } from "next/navigation";
+import { useSearchParams, useParams, usePathname } from "next/navigation";
 import Link from "next/link";
 
 interface QuestionsProps {
@@ -18,10 +18,11 @@ interface choicesProps {
 const Questions = () => {
   const { state, addQuestions } = useQuestions();
   const searchParams = useSearchParams();
+  const pathname = usePathname();
+  const { category } = useParams();
   const page = Number(searchParams.get("page"));
   const pageId = Number(searchParams.get("page")) - 1;
   const examId = searchParams.get("id");
-  const category = searchParams.get("category");
   const noPrev = pageId == 0;
   const noNext = pageId == state.randomIndexes.length - 1;
   const questionsExist = state.questions[pageId * 10];
@@ -37,6 +38,7 @@ const Questions = () => {
 
   return (
     <>
+      <h1>{state.category?.name}</h1>
       {questions?.map((question, index) => (
         <QuestionCard
           key={index}
@@ -44,13 +46,13 @@ const Questions = () => {
           questionId={pageId * 10 + index}
         ></QuestionCard>
       ))}
-      <Link href={`/exam?page=${page - 1}`}>
+      <Link href={`${pathname}?page=${page - 1}`}>
         <button disabled={noPrev}>Prev</button>
       </Link>
-      <Link href={`/exam?page=${page + 1}`}>
+      <Link href={`${pathname}?page=${page + 1}`}>
         <button
           disabled={noNext}
-          onClick={() => addQuestions("wnwf", "kqnckeq", pageId)}
+          // onClick={() => addQuestions("wnwf", "kqnckeq", pageId)}
         >
           Next
         </button>

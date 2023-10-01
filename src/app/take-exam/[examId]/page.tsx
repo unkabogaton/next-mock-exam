@@ -1,10 +1,15 @@
-import Exam from "@/screens/Exam";
+"use client";
+
+import ChooseCategory from "@/screens/ChooseCategory";
+import QuestionsProvider from "@/context/questions";
 
 const ChooseCategoryPage = () => {
   return (
     <>
-      <div>ChooseCategoryPage</div>
-      <Exam></Exam>
+      <QuestionsProvider>
+        <h1>Choose Category</h1>
+        <ChooseCategory />
+      </QuestionsProvider>
     </>
   );
 };

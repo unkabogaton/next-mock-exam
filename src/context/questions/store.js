@@ -1,9 +1,7 @@
-import { useEffect, useReducer, createContext, useContext } from "react";
-import generateIndexes from "@/apis/generateIndexes";
+import { useReducer, createContext, useContext } from "react";
 import useActions from "./useActions";
 import { questions } from "@/data";
-import fetchRandomQuestions from "@/apis/fetchRandomQuestions";
-import useHighestIndex from "@/hooks/useHighestIndex";
+import generateIndexes from "@/apis/generateIndexes";
 
 const QuestionsContext = createContext();
 
@@ -50,11 +48,19 @@ const questionsReducer = (state, action) => {
     }
     case "ADD_QUESTIONS": {
       state.questions.splice(payload.id + 1 * 10, 10, ...payload.questions);
-      console.log(state.questions);
       return {
         ...state,
         questions: state.questions,
       };
+    }
+    case "SET_CATEGORY": {
+      state.category = payload.category;
+      const numberOfQuestions = state.category?.lastIndex;
+      const exclusionArray = state.category?.deletedIndex;
+      state.randomIndexes = generateIndexes(numberOfQuestions, exclusionArray);
+      state.answers = Array.from({ length: numberOfQuestions }).fill(false);
+      state.points = Array.from({ length: numberOfQuestions }).fill(0);
+      return state;
     }
     default:
       throw new Error("No case for that type");
@@ -63,11 +69,6 @@ const questionsReducer = (state, action) => {
 
 const QuestionsProvider = ({ children }) => {
   const [state, dispatch] = useReducer(questionsReducer, initialState);
-  const numberOfQuestions = state.category.lastIndex;
-  const exclusionArray = state.category.deletedIndex;
-  state.randomIndexes = generateIndexes(numberOfQuestions, exclusionArray);
-  state.answers = Array.from({ length: numberOfQuestions }).fill(false);
-  state.points = Array.from({ length: numberOfQuestions }).fill(0);
 
   const actions = useActions(dispatch, state);
 

@@ -4,7 +4,7 @@ const generateIndexes = (
 ): number[][] => {
   const uniqueNumbers = new Set<number>();
 
-  const excludedNumberCount = exclusionArray.filter(
+  const excludedNumberCount = exclusionArray?.filter(
     (num) => num >= 1 && num <= number
   ).length;
 

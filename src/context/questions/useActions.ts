@@ -1,4 +1,5 @@
 import fetchRandomQuestions from "@/apis/fetchRandomQuestions";
+import generateIndexes from "@/apis/generateIndexes";
 
 interface stateTypes {
   randomIndexes: [][];
@@ -97,7 +98,18 @@ const useActions = (dispatch: Function, state: stateTypes) => {
     });
   };
 
-  return { addAnswer, selectChoice, removeAnswer, addQuestions };
+  const setCategory = (category: object) => {
+    dispatch({
+      type: "SET_CATEGORY",
+      payload: {
+        category,
+      },
+    });
+
+    console.log(state);
+  };
+
+  return { addAnswer, selectChoice, removeAnswer, addQuestions, setCategory };
 };
 
 export default useActions;
