@@ -5,6 +5,7 @@ import useFetchDocs from "@/hooks/useFetchDocs";
 import { useQuestions } from "@/context/questions/store";
 import { useParams, usePathname } from "next/navigation";
 import OutlinedCard from "@/components/OutlinedCard";
+import { CategoriesType } from "@/types/categories";
 
 const ChooseCategory = () => {
   const { setCategory } = useQuestions();
@@ -29,7 +30,7 @@ const ChooseCategory = () => {
 
   return (
     <>
-      {categories?.map((category) => (
+      {categories?.map((category: CategoriesType) => (
         <Link key={category.id} href={`${pathname}/${category.name}?page=1`}>
           <OutlinedCard onClick={() => setCategory(category)}>
             <h3>{category.name}</h3>
