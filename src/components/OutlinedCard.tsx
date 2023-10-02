@@ -3,7 +3,7 @@ import Card from "@mui/material/Card";
 
 interface Props {
   children: ReactNode;
-  onClick: () => void;
+  onClick?: () => void;
 }
 
 const Box: React.FC<Props> = ({ children, onClick }) => {

@@ -4,7 +4,6 @@ import React from "react";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import { useState } from "react";
-import { useQuestions } from "@/context/questions/store";
 
 interface ChoiceProps {
   letter: string;
@@ -17,7 +16,6 @@ interface ChoiceProps {
 const Choice = (props: ChoiceProps) => {
   const { letter, choice, isSelected, selectIndex, questionId } = props;
   const [isHovered, setIsHovered] = useState(false);
-
   const handleMouseEnter = () => {
     setIsHovered(true);
   };

@@ -3,7 +3,6 @@ import { Timestamp } from "firebase/firestore";
 export interface QuestionsTypes {
   choices: ChoicesTypes[];
   question: string;
-  itemNumber?: number;
 }
 
 export interface QuestionsTypesFull extends QuestionsTypes {

@@ -2,18 +2,7 @@ import QuestionCard from "./QuestionCard";
 import { useQuestions } from "@/context/questions/store";
 import { useSearchParams, useParams, usePathname } from "next/navigation";
 import Link from "next/link";
-
-interface QuestionsProps {
-  itemNumber: number;
-  question?: string;
-  choices?: choicesProps[];
-}
-
-interface choicesProps {
-  choice: string;
-  isSelected: boolean;
-  point: number;
-}
+import { QuestionsTypes } from "@/types/questions";
 
 const Questions = () => {
   const { state, addQuestions } = useQuestions();
@@ -27,7 +16,7 @@ const Questions = () => {
   const noNext = pageId == state.randomIndexes.length - 1;
   const questionsExist = state.questions[pageId * 10];
   const pageNumber = "Math.floor(Math.floor(y/x)) + 1";
-  const questions: QuestionsProps[] = state.questions.slice(
+  const questions: QuestionsTypes[] = state.questions.slice(
     pageId * 10,
     pageId * 10 + 10
   );
