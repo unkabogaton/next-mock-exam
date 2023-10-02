@@ -1,3 +1,5 @@
+"use client";
+
 import { useReducer, createContext, useContext } from "react";
 import useActions from "./useActions";
 import { questions } from "@/data";
