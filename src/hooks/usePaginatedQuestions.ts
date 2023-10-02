@@ -91,10 +91,7 @@ const usePaginatedQuestions = (props: paginatedProps) => {
       cleanedData,
     }: { documentSnapshots: any; cleanedData: QuestionsProps[] } =
       await iterateFetch(questionsQuery);
-    const { cleanedData: exp } = await iterateFetch(questionsQuery, [
-      "question",
-      "choices",
-    ]);
+    const { cleanedData: exp } = await iterateFetch(questionsQuery, []);
     console.log(exp);
     addStartingDoc(documentSnapshots);
     return cleanedData;
