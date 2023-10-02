@@ -14,35 +14,10 @@ import { useQuery } from "react-query";
 import { useState } from "react";
 import iterateFetch from "@/apis/iterateFetch";
 import countFetch from "@/apis/countFetch";
+import { PaginatedProps } from "./types";
+import { QuestionsTypes } from "@/types/questions";
 
-interface paginatedProps {
-  order: [string, "asc" | "desc"];
-  exam: string;
-  userId: string;
-  approved: boolean;
-  page: number;
-  keywords?: string[];
-  category?: string;
-}
-
-interface QuestionsProps {
-  id: string;
-  question: string;
-  created: object;
-  approval: object;
-  indexNumber: number;
-  category: string;
-  choices: choicesProps[];
-  itemNumber?: number;
-}
-
-interface choicesProps {
-  choice: string;
-  isSelected?: boolean;
-  point: number;
-}
-
-const usePaginatedQuestions = (props: paginatedProps) => {
+const usePaginatedQuestions = (props: PaginatedProps) => {
   const { order, exam, userId, approved, page, keywords, category } = props;
 
   const [startingDocs, setStartingDocs] = useState([{}]);
@@ -89,7 +64,7 @@ const usePaginatedQuestions = (props: paginatedProps) => {
     const {
       documentSnapshots,
       cleanedData,
-    }: { documentSnapshots: any; cleanedData: QuestionsProps[] } =
+    }: { documentSnapshots: any; cleanedData: QuestionsTypes[] } =
       await iterateFetch(questionsQuery);
     const { cleanedData: exp } = await iterateFetch(questionsQuery, []);
     console.log(exp);
