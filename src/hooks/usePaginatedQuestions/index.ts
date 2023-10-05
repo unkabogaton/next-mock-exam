@@ -15,7 +15,7 @@ import { useState } from "react";
 import iterateFetch from "@/apis/iterateFetch";
 import countFetch from "@/apis/countFetch";
 import { PaginatedProps } from "./types";
-import { QuestionsTypes } from "@/types/questions";
+import { QuestionsTypesFull } from "@/types/questions";
 
 const usePaginatedQuestions = (props: PaginatedProps) => {
   const { order, exam, userId, approved, page, keywords, category } = props;
@@ -64,7 +64,7 @@ const usePaginatedQuestions = (props: PaginatedProps) => {
     const {
       documentSnapshots,
       cleanedData,
-    }: { documentSnapshots: any; cleanedData: QuestionsTypes[] } =
+    }: { documentSnapshots: any; cleanedData: QuestionsTypesFull[] } =
       await iterateFetch(questionsQuery);
     const { cleanedData: exp } = await iterateFetch(questionsQuery, []);
     console.log(exp);
