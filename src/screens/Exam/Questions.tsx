@@ -9,46 +9,38 @@ import {
 
 import { QuestionsTypes } from "@/types/questions";
 import Button from "@mui/material/Button";
-import { useEffect, useState } from "react";
 
 const Questions = () => {
-  useEffect(() => {
-    const handleBeforeUnload = () => {
-      const confirmationMessage =
-        "Are you sure you want to leave? All your answers will disappear.";
-      return confirmationMessage;
-    };
-    window.addEventListener("beforeunload", handleBeforeUnload);
-    return () => {
-      window.removeEventListener("beforeunload", handleBeforeUnload);
-    };
-  }, []);
-
   const { state, addQuestions } = useQuestions();
   const router = useRouter();
   const searchParams = useSearchParams();
   const pathname = usePathname();
-  const { category } = useParams();
+  const { category, examId } = useParams();
   const page = Number(searchParams.get("page"));
   const pageId = Number(searchParams.get("page")) - 1;
-  const examId = searchParams.get("id");
   const noPrev = pageId == 0;
   const noNext = pageId >= state.randomIndexes.length - 1;
-  console.log(state.randomIndexes.length);
-  const questionsExist = state.questions[pageId * 10];
+  const questionsExist = state.questions[(pageId + 1) * 10];
+  console.log(questionsExist);
   const pageNumber = "Math.floor(Math.floor(y/x)) + 1";
   const questions: QuestionsTypes[] = state.questions.slice(
     pageId * 10,
     pageId * 10 + 10
   );
-
   const newParams = new URLSearchParams();
   newParams.set("page", (page + 1).toString());
 
-  const handleNext = () => {
-    // addQuestions("wnwf", "kqnckeq", pageId)
-    console.log("kadnvi");
-    router.push(`${pathname}?page=${page + 1}`);
+  const handleBegin = async () => {
+    await addQuestions(examId, category, pageId);
+  };
+  const handleNext = async () => {
+    if (!questionsExist) {
+      await addQuestions(examId, category, pageId + 1);
+      router.push(`${pathname}?page=${page + 1}`);
+    } else {
+      router.push(`${pathname}?page=${page + 1}`);
+    }
+    console.log(state.questions);
   };
   const handlePrev = () => {
     router.push(`${pathname}?page=${page - 1}`);
@@ -57,6 +49,7 @@ const Questions = () => {
   return (
     <>
       <h1>{state.category?.name}</h1>
+
       {questions?.map((question, index) => (
         <QuestionCard
           key={index}
@@ -64,6 +57,9 @@ const Questions = () => {
           questionId={pageId * 10 + index}
         ></QuestionCard>
       ))}
+      <Button variant="contained" size="medium" onClick={handleBegin}>
+        Begin
+      </Button>
 
       <Button
         variant="contained"
@@ -82,6 +78,11 @@ const Questions = () => {
       >
         Next
       </Button>
+      {noNext && (
+        <Button variant="contained" size="medium">
+          Submit
+        </Button>
+      )}
     </>
   );
 };

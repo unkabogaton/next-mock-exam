@@ -41,54 +41,11 @@ const useActions = (dispatch: Function, state: stateTypes) => {
     category: string,
     pageId: number
   ) => {
-    // const questions = fetchRandomQuestions(
-    //   examId,
-    //   category
-    //   state.randomIndexes[pageId]
-    // );
-    const questions = [
-      {
-        itemNumber: 1,
-        question: "What is the purpose of cataloging in library science?",
-        choices: [
-          {
-            choice: "Organizing books on shelves",
-            point: 0,
-            isSelected: false,
-          },
-          {
-            choice: "Providing access to library materials",
-            point: 1,
-            isSelected: false,
-          },
-          { choice: "Decorating the library", point: 0, isSelected: false },
-          { choice: "Managing library staff", point: 0, isSelected: false },
-        ],
-      },
-      {
-        itemNumber: 2,
-        question: "What is a bibliographic record?",
-        choices: [
-          { choice: "A list of library patrons", point: 0, isSelected: false },
-          {
-            choice: "A description of a library item",
-            point: 1,
-            isSelected: false,
-          },
-          {
-            choice: "A summary of a library's budget",
-            point: 0,
-            isSelected: false,
-          },
-          {
-            choice: "A report on library circulation",
-            point: 0,
-            isSelected: false,
-          },
-        ],
-      },
-    ];
-    console.log(questions);
+    const questions = await fetchRandomQuestions(
+      examId,
+      category,
+      state.randomIndexes[pageId]
+    );
     dispatch({
       type: "ADD_QUESTIONS",
       payload: {
@@ -105,8 +62,6 @@ const useActions = (dispatch: Function, state: stateTypes) => {
         category,
       },
     });
-
-    console.log(state);
   };
 
   return { addAnswer, selectChoice, removeAnswer, addQuestions, setCategory };

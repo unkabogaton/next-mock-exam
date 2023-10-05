@@ -1,14 +1,13 @@
 "use client";
 
-import { useReducer, createContext, useContext } from "react";
+import { useReducer, createContext, useContext, useEffect } from "react";
 import useActions from "./useActions";
-import { questions } from "@/data";
 import generateIndexes from "@/apis/generateIndexes";
 
 const QuestionsContext = createContext();
 
 const initialState = {
-  questions: questions,
+  questions: [],
   answers: [],
   points: [],
   page: 0,
@@ -49,19 +48,19 @@ const questionsReducer = (state, action) => {
       };
     }
     case "ADD_QUESTIONS": {
-      state.questions.splice(payload.id + 1 * 10, 10, ...payload.questions);
-      return {
-        ...state,
-        questions: state.questions,
-      };
+      console.log(payload.questions);
+      const newQuestions = [
+        ...state.questions.slice(0, payload.id * 10),
+        ...payload.questions,
+        ...state.questions.slice(10),
+      ];
+      return { ...state, questions: newQuestions };
     }
     case "SET_CATEGORY": {
       state.category = payload.category;
       const numberOfQuestions = state.category?.lastIndex;
       const exclusionArray = state.category?.deletedIndex;
       state.randomIndexes = generateIndexes(numberOfQuestions, exclusionArray);
-      state.answers = Array.from({ length: numberOfQuestions }).fill(false);
-      state.points = Array.from({ length: numberOfQuestions }).fill(0);
       return state;
     }
     default:

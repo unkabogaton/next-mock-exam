@@ -22,7 +22,7 @@ const ChooseExam = () => {
     return <h2>Loading...</h2>;
   }
   if (isError) {
-    return <h2>{error.message}</h2>;
+    return <h2>{(error as { message: string }).message}</h2>;
   }
   return (
     <>
