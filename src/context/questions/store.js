@@ -2,7 +2,7 @@
 
 import { useReducer, createContext, useContext, useEffect } from "react";
 import useActions from "./useActions";
-import generateIndexes from "@/apis/generateIndexes";
+import generateIndexes from "@/apis/GenerateIndexes";
 
 const QuestionsContext = createContext();
 
