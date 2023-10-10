@@ -12,8 +12,8 @@ import {
 import db from "@/firebase";
 import { useQuery } from "react-query";
 import { useState } from "react";
-import iterateFetch from "@/apis/iterateFetch";
-import countFetch from "@/apis/countFetch";
+import iterateFetch from "../../apis/iterateFetch";
+import countFetch from "../../apis/countFetch";
 import { PaginatedProps } from "./types";
 import { QuestionsTypesFull } from "@/types/questions";
 
