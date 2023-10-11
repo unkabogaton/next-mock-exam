@@ -1,11 +1,11 @@
 import db from "@/firebase";
 import { collection, CollectionReference } from "firebase/firestore";
-import { nestedCollectionProps } from "./types";
 
 const useNestedCollection = (
-  props: nestedCollectionProps
+  mainCollection: string,
+  docId: string,
+  subcollection: string
 ): CollectionReference => {
-  const { mainCollection, docId, subcollection } = props;
   const nestedCollection = collection(db, mainCollection, docId, subcollection);
   return nestedCollection;
 };

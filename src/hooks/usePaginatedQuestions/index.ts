@@ -16,6 +16,7 @@ import iterateFetch from "../../apis/IterateFetch";
 import countFetch from "../../apis/CountFetch";
 import { PaginatedProps } from "./types";
 import { QuestionsTypesFull } from "@/types/questions";
+import useNestedCollection from "../useNestedCollection";
 
 const usePaginatedQuestions = (props: PaginatedProps) => {
   const { order, exam, userId, approved, page, keywords, category } = props;
@@ -23,8 +24,7 @@ const usePaginatedQuestions = (props: PaginatedProps) => {
   const [startingDocs, setStartingDocs] = useState([{}]);
 
   const limitNumber = 10;
-
-  const questionsCollections = collection(db, "exams", exam, "questions");
+  const questionsCollections = useNestedCollection("exams", exam, "questions");
   const constraints = [
     orderBy(...order),
     where("created.userId", "==", userId),
