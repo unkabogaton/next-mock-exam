@@ -1,5 +1,4 @@
 import fetchRandomQuestions from "@/apis/FetchRandomQuestions";
-import generateIndexes from "@/apis/GenerateIndexes";
 
 interface stateTypes {
   randomIndexes: [][];
