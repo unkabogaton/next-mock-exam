@@ -1,5 +1,5 @@
 import { collection, orderBy, query } from "firebase/firestore";
-import iterateFetch from "../../apis/IterateFetch";
+import iterateFetch from "../useIterateFetch";
 import db from "@/firebase";
 import { useQuery } from "react-query";
 import { FetchDocsProps } from "./types";

@@ -1,5 +1,4 @@
 import {
-  collection,
   query,
   orderBy,
   startAfter,
@@ -9,11 +8,10 @@ import {
   Timestamp,
   serverTimestamp,
 } from "firebase/firestore";
-import db from "@/firebase";
 import { useQuery } from "react-query";
 import { useState } from "react";
-import iterateFetch from "../../apis/IterateFetch";
-import countFetch from "../../apis/CountFetch";
+import iterateFetch from "../useIterateFetch";
+import countFetch from "../useCountFetch";
 import { PaginatedProps } from "./types";
 import { QuestionsTypesFull } from "@/types/questions";
 import useNestedCollection from "../useNestedCollection";

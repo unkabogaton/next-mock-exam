@@ -1,6 +1,6 @@
 import db from "@/firebase";
 import { collection, limit, query, where } from "firebase/firestore";
-import iterateFetch from "./IterateFetch";
+import iterateFetch from "./useIterateFetch";
 import { QuestionsTypes } from "@/types/questions";
 
 const fetchRandomQuestions = async (

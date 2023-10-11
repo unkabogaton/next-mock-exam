@@ -1,4 +1,4 @@
-import fetchRandomQuestions from "@/apis/FetchRandomQuestions";
+import fetchRandomQuestions from "@/hooks/useFetchRandomQuestions";
 
 interface stateTypes {
   randomIndexes: [][];
