@@ -12,14 +12,15 @@ import fetchRandomQuestions from "@/hooks/useFetchRandomQuestions";
 import { QuestionsTypes } from "@/types/questions";
 import QuestionCard from "./QuestionCard";
 import { Button } from "@mui/material";
+import Link from "next/link";
 
 const Exams = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const pathname = usePathname();
   const { examId, categoryParams } = useParams();
-  console.log(useParams());
   const [questions, setQuestions] = useState<QuestionsTypes[]>([]);
+  const [score, setScore] = useState<(number | null)[]>([]);
   const {
     data: category,
     isError,
@@ -33,7 +34,6 @@ const Exams = () => {
   const page = Number(searchParams.get("page"));
   const pageId = page - 1;
   const questionsExist = questions[(pageId + 1) * 10];
-  const score: number[] = [];
   const noPrev = pageId <= 0;
   const noNext = pageId >= randomIndexes.length - 1;
 
@@ -52,8 +52,6 @@ const Exams = () => {
         randomIndexes[page]
       );
       setQuestions([...questions, ...newQuestions]);
-      score.push(1);
-      console.log(score);
       router.push(`${pathname}?page=${page + 1}`);
     } else {
       router.push(`${pathname}?page=${page + 1}`);
@@ -62,14 +60,29 @@ const Exams = () => {
   const handlePrev = () => {
     router.push(`${pathname}?page=${page - 1}`);
   };
+  const selectChoice = (
+    questionId: number,
+    choiceItem: string,
+    point: number
+  ) => {
+    const questionsCopy = [...questions];
+    questionsCopy[questionId]?.choices.forEach((choice) => {
+      choice.isSelected = choice.choice === choiceItem;
+    });
+    setQuestions(questionsCopy);
+    score[questionId] = point;
+  };
   console.log(questions);
+
   return (
     <>
+      <Link href="#9">Go to Section 1</Link>
       {filteredQuestions?.map((question, index) => (
         <QuestionCard
           key={index}
           {...question}
           questionId={pageId * 10 + index}
+          selectChoice={selectChoice}
         ></QuestionCard>
       ))}
       <Button
@@ -89,6 +102,7 @@ const Exams = () => {
       >
         {page == 0 ? "Begin" : "Next"}
       </Button>
+
       {noNext && (
         <Button variant="contained" size="medium">
           Submit

@@ -15,12 +15,22 @@ const fetchRandomQuestions = async (
     limit(10),
   ];
   const questionsQuery = query(questionsCollections, ...constraints);
-  const attributes = ["id", "question", "choices"];
   const { cleanedData }: { cleanedData: QuestionsTypes[] } = await iterateFetch(
     questionsQuery,
-    attributes
+    ["question", "choices"]
   );
-  return cleanedData;
+
+  const shuffleChoices = (questions: QuestionsTypes[]) => {
+    return questions.map((question) => {
+      const shuffledChoices = [...question.choices].sort(
+        () => Math.random() - 0.5
+      );
+      return { ...question, choices: shuffledChoices };
+    });
+  };
+
+  const questions = shuffleChoices(cleanedData);
+  return questions;
 };
 
 export default fetchRandomQuestions;

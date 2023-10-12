@@ -11,57 +11,58 @@ import { QuestionsTypes } from "@/types/questions";
 
 interface QuestionCardProps extends QuestionsTypes {
   questionId: number;
+  selectChoice: (questionId: number, choice: string, point: number) => void;
 }
 
 const QuestionCard = (props: QuestionCardProps) => {
-  const { addAnswer, selectChoice } = useQuestions();
+  const { addAnswer } = useQuestions();
 
-  const { question, choices, questionId } = props;
+  const { question, choices, questionId, selectChoice } = props;
 
   return (
     <>
-      <Box my={4}>
-        <OutlinedCard>
-          <Typography fontWeight="light" variant="caption">
-            Question {questionId + 1}
-          </Typography>
-          <Typography gutterBottom mb={1} fontSize={20}>
-            {question}
-          </Typography>
-          <Grid container>
-            <Grid item md={6} xs={12}>
-              {choices?.slice(0, 2).map((choice, index) => (
-                <Choice
-                  key={index}
-                  letter={String.fromCharCode(65 + index)}
-                  choice={choice.choice}
-                  isSelected={choice.isSelected!}
-                  questionId={questionId}
-                  selectIndex={() => {
-                    selectChoice(questionId, choice.choice);
-                    addAnswer(questionId, choice.point);
-                  }}
-                />
-              ))}
+      <section id={`${questionId}`}>
+        <Box my={4}>
+          <OutlinedCard>
+            <Typography fontWeight="light" variant="caption">
+              Question {questionId + 1}
+            </Typography>
+            <Typography gutterBottom mb={1} fontSize={20}>
+              {question}
+            </Typography>
+            <Grid container>
+              <Grid item md={6} xs={12}>
+                {choices?.slice(0, 2).map((choice, index) => (
+                  <Choice
+                    key={index}
+                    letter={String.fromCharCode(65 + index)}
+                    choice={choice.choice}
+                    isSelected={choice.isSelected!}
+                    questionId={questionId}
+                    selectIndex={() => {
+                      selectChoice(questionId, choice.choice, choice.point);
+                    }}
+                  />
+                ))}
+              </Grid>
+              <Grid item md={6} xs={12}>
+                {choices?.slice(2, 4).map((choice, index) => (
+                  <Choice
+                    key={index}
+                    letter={String.fromCharCode(67 + index)}
+                    choice={choice.choice}
+                    isSelected={choice.isSelected!}
+                    questionId={questionId}
+                    selectIndex={() => {
+                      selectChoice(questionId, choice.choice, choice.point);
+                    }}
+                  />
+                ))}
+              </Grid>
             </Grid>
-            <Grid item md={6} xs={12}>
-              {choices?.slice(2, 4).map((choice, index) => (
-                <Choice
-                  key={index}
-                  letter={String.fromCharCode(67 + index)}
-                  choice={choice.choice}
-                  isSelected={choice.isSelected!}
-                  questionId={questionId}
-                  selectIndex={() => {
-                    selectChoice(questionId, choice.choice);
-                    addAnswer(questionId, choice.point);
-                  }}
-                />
-              ))}
-            </Grid>
-          </Grid>
-        </OutlinedCard>
-      </Box>
+          </OutlinedCard>
+        </Box>
+      </section>
     </>
   );
 };
