@@ -1,9 +1,9 @@
 "use client";
 
-import Questions from "./Questions";
+import Exams from "./Exams";
 
 const Exam = () => {
-  return <Questions></Questions>;
+  return <Exams></Exams>;
 };
 
 export default Exam;

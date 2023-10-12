@@ -1,5 +1,5 @@
 export interface CategoriesType {
-  deletedIndex: number;
+  deletedIndex: number[];
   id: string;
   lastIndex: number;
   name: string;

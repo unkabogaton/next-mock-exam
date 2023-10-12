@@ -1,6 +1,6 @@
 const generateIndexes = (
-  number: number,
-  exclusionArray: number[]
+  number: number = 0,
+  exclusionArray: number[] = []
 ): number[][] => {
   const uniqueNumbers = new Set<number>();
 
