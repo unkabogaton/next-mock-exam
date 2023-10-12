@@ -13,6 +13,7 @@ const ChooseCategory = () => {
   const params = useParams();
   const pathname = usePathname();
   const examId = params.examId;
+  console.log(examId);
   const categoriesParams = {
     nestedCollection: ["exams", examId, "categories"] as [
       string,
@@ -31,7 +32,10 @@ const ChooseCategory = () => {
   return (
     <>
       {categories?.map((category: CategoriesType) => (
-        <Link key={category.id} href={`${pathname}/${category.name}?page=1`}>
+        <Link
+          key={category.id}
+          href={`${pathname}/${category.id}/${category.name}?page=0`}
+        >
           <OutlinedCard onClick={() => setCategory(category)}>
             <h3>{category.name}</h3>
           </OutlinedCard>

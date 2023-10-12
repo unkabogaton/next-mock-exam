@@ -11,28 +11,32 @@ import {
 import fetchRandomQuestions from "@/hooks/useFetchRandomQuestions";
 import { QuestionsTypes } from "@/types/questions";
 import QuestionCard from "./QuestionCard";
+import { Button } from "@mui/material";
 
 const Exams = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const pathname = usePathname();
+  const { examId, categoryParams } = useParams();
+  console.log(useParams());
   const [questions, setQuestions] = useState<QuestionsTypes[]>([]);
   const {
     data: category,
     isError,
     error,
     isLoading,
-  } = useFetchNestedDoc("categories", "EpynhphcBA4nAZRDEMnV");
+  } = useFetchNestedDoc("categories", categoryParams[0]);
   const randomIndexes = useGenerateIndexes(
     (category as CategoriesType)?.lastIndex,
     (category as CategoriesType)?.deletedIndex
   );
-  console.log(category);
   const page = Number(searchParams.get("page"));
   const pageId = page - 1;
   const questionsExist = questions[(pageId + 1) * 10];
   const score: number[] = [];
-  const { examId } = useParams();
+  const noPrev = pageId <= 0;
+  const noNext = pageId >= randomIndexes.length - 1;
+
   if (isLoading) {
     return <h1>Loading...</h1>;
   }
@@ -40,7 +44,7 @@ const Exams = () => {
     return <h2>{error.message}</h2>;
   }
   const filteredQuestions = questions.slice(pageId * 10, pageId * 10 + 10);
-  const next = async () => {
+  const handleNext = async () => {
     if (!questionsExist) {
       const newQuestions = await fetchRandomQuestions(
         examId as string,
@@ -55,6 +59,9 @@ const Exams = () => {
       router.push(`${pathname}?page=${page + 1}`);
     }
   };
+  const handlePrev = () => {
+    router.push(`${pathname}?page=${page - 1}`);
+  };
   console.log(questions);
   return (
     <>
@@ -65,7 +72,28 @@ const Exams = () => {
           questionId={pageId * 10 + index}
         ></QuestionCard>
       ))}
-      <button onClick={next}>Next</button>
+      <Button
+        variant="contained"
+        size="medium"
+        onClick={handlePrev}
+        disabled={noPrev}
+        sx={{ margin: "auto" }}
+      >
+        Back
+      </Button>
+      <Button
+        variant="contained"
+        size="medium"
+        onClick={handleNext}
+        disabled={noNext}
+      >
+        {page == 0 ? "Begin" : "Next"}
+      </Button>
+      {noNext && (
+        <Button variant="contained" size="medium">
+          Submit
+        </Button>
+      )}
     </>
   );
 };
