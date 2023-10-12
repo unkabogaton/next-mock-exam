@@ -21,7 +21,7 @@ const QuestionCard = (props: QuestionCardProps) => {
 
   return (
     <>
-      <section id={`${questionId}`}>
+      <section id={`${questionId + 1}`}>
         <Box my={4}>
           <OutlinedCard>
             <Typography fontWeight="light" variant="caption">

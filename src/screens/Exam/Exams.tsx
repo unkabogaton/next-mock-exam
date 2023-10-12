@@ -11,7 +11,8 @@ import {
 import fetchRandomQuestions from "@/hooks/useFetchRandomQuestions";
 import { QuestionsTypes } from "@/types/questions";
 import QuestionCard from "./QuestionCard";
-import { Button } from "@mui/material";
+import ButtonGroup from "@mui/material/ButtonGroup";
+import Button from "@mui/material/Button";
 import Link from "next/link";
 
 const Exams = () => {
@@ -60,6 +61,9 @@ const Exams = () => {
   const handlePrev = () => {
     router.push(`${pathname}?page=${page - 1}`);
   };
+  const handleJump = (pageNumber, section) => {
+    router.push(`${pathname}?page=${pageNumber}#${section}`);
+  };
   const selectChoice = (
     questionId: number,
     choiceItem: string,
@@ -70,13 +74,34 @@ const Exams = () => {
       choice.isSelected = choice.choice === choiceItem;
     });
     setQuestions(questionsCopy);
-    score[questionId] = point;
+    setScore((prevScore) => [
+      ...prevScore.slice(0, questionId),
+      point,
+      ...prevScore.slice(questionId + 1),
+    ]);
   };
   console.log(questions);
 
   return (
     <>
-      <Link href="#9">Go to Section 1</Link>
+      {randomIndexes?.map((array, index) => (
+        <ButtonGroup
+          key={index}
+          variant="contained"
+          aria-label="outlined primary button group"
+          disabled={questions[index * 10] === undefined}
+        >
+          {array?.map((number, innerIndex) => (
+            <Button
+              key={innerIndex}
+              onClick={() => handleJump(index + 1, index * 10 + innerIndex + 1)}
+            >
+              {index * 10 + innerIndex + 1}
+            </Button>
+          ))}
+        </ButtonGroup>
+      ))}
+      <Link href="#6">Go to Section 6</Link>
       {filteredQuestions?.map((question, index) => (
         <QuestionCard
           key={index}
@@ -94,6 +119,7 @@ const Exams = () => {
       >
         Back
       </Button>
+
       <Button
         variant="contained"
         size="medium"
